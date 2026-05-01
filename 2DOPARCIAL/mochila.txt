@@ -1,0 +1,31 @@
+# -Ejercicio1
+# --A
+
+# caminoDesde(+P,-C):- desde(0,N), caminoConNpasosDesde(N, P, C).
+
+# caminoConNPasosDesde(0,P, [P]).
+# caminoConNpasosDesde(N,P , [X2|Xs]):- N>0, N2 is N -1, esMovimiento(P,X2), caminoConNpasosDesde(N2,X2,Xs).
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------- A
+
+# caminoDesde(+P,-[P|Xs]):- desde(0,N), caminoConNpasosDesde(N,P,Xs).
+
+# caminoConNPasosDesde(0,P,[]).
+# caminoConNpasosDesde(N,P,[X2|Xs]):- N>0, N2 is N-1, esMovimiento(P,X2), caminoConNpasosDesde(N2,X2,Xs).
+
+
+# esMovimiento((I,D), (I2,D)):- I2 is I+1.
+# esMovimiento((I,D), (I2,D)):- I2 is I-1.
+# esMovimiento((I,D), (I,D2)):- D2 is D+1.
+# esMovimiento((I,D), (I,D2)):- D2 is D-1.
+
+# --B 
+
+
+# mochila(C, L):- cantidadDeObjetos(N), between(0,N,X), mochilaDesde(X+1,C, L,N).
+
+# mochilaDesde(X, C, L,N):- C>= 0, X > N.
+# mochilaDesde(X,C,[X|Xs], N):-X<= N, objeto(X,P,_), X2 is X+1, C2 is C-P, mochilaDesde(X2,C2,XS,N).
+# mochilaDesde(X,C,[Y|XS],N):- X2 is X+1, between(X2,N, Y), mochilaDesde(X2,C,[Y|XS], N).
+
+

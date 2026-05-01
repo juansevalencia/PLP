@@ -1,0 +1,168 @@
+
+6 temas. 
+
+Miercoles: Fold ejercicios (x), biografia (), parcial fold.
+
+Jueves: Razonamiento ecuacional, induccion estructural.
+
+Viernes: Calculo lambda.
+
+Sabado: ej calc lambda
+
+Domingo: Finales. Buscar carpa
+
+Lunes: ejercicios de repaso fold. papa 
+ 
+Martes: Rendir
+
+
+
+
+Relaci´on entre recursi´on estructural e iterativ
+1. Definir foldl en t´erminos de foldr.
+2. Definir foldr en t´erminos de foldl
+
+map concat
+
+---------------
+sobre lsitas.
+
+foldr :: (b->a->b)->b->[a]->b
+foldr f cb [] = cb
+foldr f cb (x:xs) = f x rec 
+			where rec = foldr cb f xs 
+			
+recr cb f [] = cb
+recr cb f x:xs = f x rec xs
+		where rec = recr cb f xs
+
+
+recursion estructural.foldr caso base devuelve un valor fijo. EL caso recursivo no puede usar f ni la cola, a no ser que las use juntas.
+
+recursion primitiva recr , base valor fijo. No se puede usar g salvo en g xs en el caso recursivo, se puede usar xs separado.
+
+iterativa foldl, caso base acumuludor, se puede usar el acumulador y el llamado recursivo es g acum' xs
+
+recurion explicita, la de siempre.
+
+
+
+1c2024
+
+
+foldAT :: (a->b->b->b->b)->b-> AT a->b *Toma una f de tipo del terniario que devuelve algo del tipo terniario b. Y un arbol terniario
+foldAT f cB NilT  = cB
+foldAT f cB Tri v I M D = f v recI recM recD
+			where recI = foldAT f cB I
+
+5ª cuerda traste 2 = B
+
+			      recD = foldAT f cB D
+			      recM = foldAT f cB M
+
+preorder :: AT a -> [a]
+preorder = foldAT (\v recI recM recD -> [v] ++ recI + recM ++ recD ) [] 
+
+mapAT :: (a->b) -> AT a -> AT b
+mapAT f = foldAT (\v recI recM recD -> Tri (f v) recI recM recD) Nilt
+
+nivel :: AT a -> Int -> [a]
+nivel ter n =  foldAT (\v recI recM recD k-> if k == n-1 then recI (+1) ++ recM (+1) ++ recD (+1) ) (\k-> if n==k then Nilt else ) ter 
+					 else if k == n then [v]
+					   else 
+					   
+
+nivel :: AT a -> Int -> [a]
+nivel = foldAT (\i -> [])(x ri rm rd i -> if i == 0 then [x] else ((ri i-1) ++ (rm i-1)++ (rd i-1)))
+
+---------
+foldl :: (b->a->b)-> b->[a]->b 
+foldl f ac [] = ac
+foldl f ac x:xs = foldl f (f ac x) xs
+
+foldl (flip (:)) [] = reverse 
+esto lo que va hacer es 
+
+foldl (flip (:)) [] [1,2,3] = reverse [1,2,3]
+tiene sentido, primeor el acumulador pasa a ser [1] y despues se van metoendo los valores.
+
+--------
+
+recursi´on en simult´aneo sobre m´as de una estructura
+Definir la siguiente funci´on usando foldr. (No tan f´acil).
+
+zip :: [a] -> [b] -> [(a, b)]
+zip [] [] = []
+zip (x : xs) (y : ys) = (x, y) : zip xs ys
+
+
+
+ zip = foldr (\l-> if l== [] then []) (/x rec (y:ys) -> (x,y) : (rec ys))
+
+---------
+
+Relaci´on entre recursi´on estructural y primitiva
+1. Definir foldr en t´erminos de recr. (F´acil).
+2. Definir recr en t´erminos de foldr. (No tan f´acil).
+Idea: devolver una tupla con una copia de la lista original.
+
+fodlr f cb = recr (\x rec xs -> f x rec) cb
+
+recr f cb l = foldr (\(x,xs) rec-> f x xs rec ) cb (q l)
+
+q :: [a] -> [(a, [a])]
+q [] = []
+q x:xs = (x,xs) : q xs
+
+-----
+Relaci´on entre recursion estructural e iterativ
+1. Definir foldl en terminos de foldr.
+
+~no hay cb es el acum
+
+foldl f ac l = foldr (\x rec ac -> rec (f ac x) ) id l ac
+
+-----
+y 
+curry . uncurry = id
+
+son iguales si son iguales en todo putno
+Vx:: a 
+curry . uncurry x = id x
+
+beta lo usas para consumir en la lambda
+n para sacar.
+
+El principio de induccion lo usamos para probar cosas que sean mas complejas.
+Para probar -> expresion compleja que no se le puede aplicar directamente el remplazo
+Basta probar : expresion subdividida en casos o expresion con nuevas variables mas aplicables
+
+Induccion estructural
+Si P vale sobre todos os constructores base del tipo T y P vale sobre todos los constructores recursivos de T asumiendo como HI que vale par todos los parametros de tipo T. Entonces vale Vx::T. P(x)
+
+foldr recorre a derecha pero no necesariamente evalua de derecha a izq. En haskell, en un lenguaje perezoso.
+
+14:57
+
+foldr f z xs = foldl (flip f) z (reverse xs)
+
+cuando llegue a la lsita vacia osea despues de haber recorrido todos los elementos devuelve el acumulador, que el acumulador es la evaluacion original.
+
+foldl g z (xs ++ [x]) = g (foldl g z xs) x
+
+Lema de generacion para pares. 
+
+Lema de generacion either.
+data either a b = Left a | Right b
+si e :: Either a b:
+
+o bien Ex::a. e = Left x  
+o bien Ey::b e = Right y 
+
+----------------
+Programa -> Termino sin variables libres y cerrado (sin var libres).
+
+valores -> posibles resultados de evauluar un progrmaa
+
+
+Parcial.

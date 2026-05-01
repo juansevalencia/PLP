@@ -1,0 +1,28 @@
+1. Salieron los 3
+
+2.Salieorn los 4.
+
+3.
+-EN hoja 7. Inciso 7. VII como sigo en la Tesis inductiva, si por la definiciond e filter y foldr no puedo sacar ese x para afuera. Si podria redefinir un filter. O podria crear un lema no? para sacar ese elemento afuera. 
+
+4.1: 
+-Hace falta definir por extionsonalidad? xs
+
+-NO podemos probar ese lmea
+
+
+A hacer:
+-Ejercicio 7
+
+-Ejercicio de dos case
+
+-Escribir bien devuelta el 6 de zip.
+
+-Eejrcicio 5
+
+
+
+
+
+
+
